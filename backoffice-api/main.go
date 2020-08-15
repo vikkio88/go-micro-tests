@@ -1,7 +1,8 @@
 package main
 
 import (
-	"net/http"
+	"backoffice-api/actions"
+	"backoffice-api/libs/config"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -9,17 +10,17 @@ import (
 
 func main() {
 	router := gin.Default()
+	appConfig := config.New()
 
-	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"*"}
-	router.Use(cors.New(config))
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{"*"}
+	router.Use(cors.New(corsConfig))
 
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-			"service": "backoffice-api",
-		})
+	router.Use(func(c *gin.Context) {
+		c.Set("config", appConfig)
 	})
+
+	router.GET("/ping", actions.Pong)
 
 	router.Run()
 }
