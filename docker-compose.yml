@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  backoffice-api:
+    container_name: backoffice-api
+    build:
+      context: ./backoffice-api
+      dockerfile: Dockerfile
+    ports:
+      - 3000:8080
+  be:
+    container_name: be
+    build:
+      context: ./be
+      dockerfile: Dockerfile
+    ports:
+      - 3001:8080
