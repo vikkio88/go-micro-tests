@@ -9,17 +9,18 @@ import (
 
 // PagesGetAll action to get all pages filtering them
 func PagesGetAll(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"a": "a"})
+	pages := models.GetAllPages()
+	c.JSON(http.StatusOK, gin.H{"data": pages})
 }
 
 // PageCreate create a page
 func PageCreate(c *gin.Context) {
 	var page models.Page
 	c.BindJSON(&page)
-	valid, validation := page.IsValid()
+	valid, errors := page.IsValid()
 
 	if !valid {
-		c.JSON(http.StatusUnprocessableEntity, gin.H{"errors": validation.Errors})
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"errors": errors})
 		return
 	}
 
