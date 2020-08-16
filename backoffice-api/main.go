@@ -22,5 +22,8 @@ func main() {
 
 	router.GET("/ping", actions.Pong)
 
+	router.GET("/pages", actions.PagesGetAll)
+	router.POST("/pages", actions.PageCreate)
+
 	router.Run()
 }
